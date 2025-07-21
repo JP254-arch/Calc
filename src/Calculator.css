@@ -1,0 +1,106 @@
+.calculator {
+  width: 320px;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.calculator.dark {
+  background-color: #1c1c1c;
+  color: white;
+}
+
+.calculator.light {
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.toggle-btn {
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  border: none;
+  background: #f57f17;
+  color: white;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+.toggle-btn:hover {
+  background: #ff8f00;
+}
+
+.display {
+  text-align: right;
+  padding: 20px;
+  font-size: 1.5rem;
+}
+
+.input {
+  opacity: 0.7;
+  word-break: break-word;
+}
+
+.result {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.1s, background 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.calculator.dark .btn {
+  background: #333;
+  color: white;
+}
+
+.calculator.light .btn {
+  background: #ddd;
+  color: #333;
+}
+
+.orange {
+  background-color: #f57f17 !important;
+  color: white;
+}
+
+.orange:hover {
+  background-color: #ff8f00 !important;
+}
+
+.history {
+  margin-top: 20px;
+}
+
+.history h4 {
+  margin-bottom: 10px;
+}
+
+.history ul {
+  list-style: none;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+.history li {
+  padding: 5px 0;
+  border-bottom: 1px dashed #999;
+}
