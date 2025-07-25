@@ -63,39 +63,38 @@ const Calculator = () => {
         {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
       </button>
 
-
       <div className="display">
         <div className="input">{input}</div>
         <div className="result">{result}</div>
       </div>
 
       <div className="buttons">
-        {[
-          "C", "+/-", "%", "÷",
-          "7", "8", "9", "×",
-          "4", "5", "6", "-",
-          "1", "2", "3", "+",
-          "0", ".", "=",
-        ].map((btn, idx) => (
+        <button className="btn special" onClick={() => setInput(input.slice(0, -1))}>⌫</button>
+        <button className="btn special" onClick={() => handleClick("C")}>C</button>
+        <button className="btn special" onClick={() => handleClick("+/-")}>+/-</button>
+        <button className="btn orange" onClick={() => handleClick("÷")}>÷</button>
+
+        {["7", "8", "9", "×", "4", "5", "6", "-", "1", "2", "3", "+"].map((btn, idx) => (
           <button
             key={idx}
-            className={`btn ${["÷", "×", "-", "+", "="].includes(btn) ? "orange" : ""
-              } ${btn === "0" ? "zero" : ""}`}
+            className={`btn ${["÷", "×", "-", "+"].includes(btn) ? "orange" : ""}`}
             onClick={() => handleClick(btn)}
           >
             {btn}
           </button>
         ))}
+
+        <button className="btn zero" onClick={() => handleClick("0")}>0</button>
+        <button className="btn" onClick={() => handleClick(".")}>.</button>
+        <button className="btn orange" onClick={() => handleClick("=")}>=</button>
       </div>
 
       <div className="history">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+        <div style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}>
           <h4>History</h4>
           {history.length > 0 && (
             <button className="clear-btn" onClick={() => setHistory([])}>
