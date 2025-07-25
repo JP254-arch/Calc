@@ -19,7 +19,8 @@ const Calculator = () => {
 
     if (value === "=") {
       try {
-        const calculatedResult = evaluate(input);
+        const replacedInput = input.replace(/÷/g, "/").replace(/×/g, "*");
+        const calculatedResult = evaluate(replacedInput);
         setResult(calculatedResult.toLocaleString());
         setHistory([
           { expression: input, result: calculatedResult.toLocaleString() },
@@ -33,14 +34,16 @@ const Calculator = () => {
       setResult("");
     } else if (value === "+/-") {
       try {
-        const val = evaluate(input) * -1;
+        const replacedInput = input.replace(/÷/g, "/").replace(/×/g, "*");
+        const val = evaluate(replacedInput) * -1;
         setInput(val.toString());
       } catch {
         setResult("Error");
       }
     } else if (value === "%") {
       try {
-        const val = evaluate(input) / 100;
+        const replacedInput = input.replace(/÷/g, "/").replace(/×/g, "*");
+        const val = evaluate(replacedInput) / 100;
         setResult(val.toLocaleString());
         setHistory([
           { expression: input + " %", result: val.toLocaleString() },
@@ -57,8 +60,9 @@ const Calculator = () => {
   return (
     <div className={`calculator ${darkMode ? "dark" : "light"}`}>
       <button className="toggle-btn" onClick={() => setDarkMode(!darkMode)}>
-        {darkMode ? "Light Mode ☀️" : "Dark Mode"}
+        {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
       </button>
+
 
       <div className="display">
         <div className="input">{input}</div>
@@ -67,17 +71,16 @@ const Calculator = () => {
 
       <div className="buttons">
         {[
-          "C", "+/-", "%", "/",
-          "7", "8", "9", "*",
+          "C", "+/-", "%", "÷",
+          "7", "8", "9", "×",
           "4", "5", "6", "-",
           "1", "2", "3", "+",
           "0", ".", "=",
         ].map((btn, idx) => (
           <button
             key={idx}
-            className={`btn ${
-              ["/", "*", "-", "+", "="].includes(btn) ? "orange" : ""
-            } ${btn === "0" ? "zero" : ""}`}
+            className={`btn ${["÷", "×", "-", "+", "="].includes(btn) ? "orange" : ""
+              } ${btn === "0" ? "zero" : ""}`}
             onClick={() => handleClick(btn)}
           >
             {btn}
@@ -86,7 +89,20 @@ const Calculator = () => {
       </div>
 
       <div className="history">
-        <h4>History</h4>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h4>History</h4>
+          {history.length > 0 && (
+            <button className="clear-btn" onClick={() => setHistory([])}>
+              Clear
+            </button>
+          )}
+        </div>
         <ul>
           {history.map((item, index) => (
             <li key={index}>
