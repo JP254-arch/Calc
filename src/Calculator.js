@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { evaluate } from "mathjs";
 import "./Calculator.css";
 
@@ -8,22 +8,47 @@ const Calculator = () => {
   const [history, setHistory] = useState([]);
   const [darkMode, setDarkMode] = useState(true);
 
-  const clickSound = new Audio("/sounds/click.mp3");
+  const clickSound = new Audio("/sounds/click.wav");
 
+  useEffect(() => {
+    document.body.className = darkMode ? "" : "light-mode";
+  }, [darkMode]);
 
   const handleClick = (value) => {
     clickSound.play();
+
     if (value === "=") {
       try {
         const calculatedResult = evaluate(input);
         setResult(calculatedResult.toLocaleString());
-        setHistory([{ expression: input, result: calculatedResult.toLocaleString() }, ...history]);
+        setHistory([
+          { expression: input, result: calculatedResult.toLocaleString() },
+          ...history,
+        ]);
       } catch {
         setResult("Error");
       }
     } else if (value === "C") {
       setInput("");
       setResult("");
+    } else if (value === "+/-") {
+      try {
+        const val = evaluate(input) * -1;
+        setInput(val.toString());
+      } catch {
+        setResult("Error");
+      }
+    } else if (value === "%") {
+      try {
+        const val = evaluate(input) / 100;
+        setResult(val.toLocaleString());
+        setHistory([
+          { expression: input + " %", result: val.toLocaleString() },
+          ...history,
+        ]);
+      } catch {
+        setResult("Error");
+      }
     } else {
       setInput(input + value);
     }
@@ -32,7 +57,7 @@ const Calculator = () => {
   return (
     <div className={`calculator ${darkMode ? "dark" : "light"}`}>
       <button className="toggle-btn" onClick={() => setDarkMode(!darkMode)}>
-        {darkMode ? "Light Mode" : "Dark Mode"}
+        {darkMode ? "Light Mode ☀️" : "Dark Mode"}
       </button>
 
       <div className="display">
@@ -41,10 +66,18 @@ const Calculator = () => {
       </div>
 
       <div className="buttons">
-        {["C", "/", "7", "8", "9", "*", "4", "5", "6", "-", "1", "2", "3", "+", "0", ".", "="].map((btn, idx) => (
+        {[
+          "C", "+/-", "%", "/",
+          "7", "8", "9", "*",
+          "4", "5", "6", "-",
+          "1", "2", "3", "+",
+          "0", ".", "=",
+        ].map((btn, idx) => (
           <button
             key={idx}
-            className={`btn ${["/", "*", "-", "+", "="].includes(btn) ? "orange" : ""}`}
+            className={`btn ${
+              ["/", "*", "-", "+", "="].includes(btn) ? "orange" : ""
+            } ${btn === "0" ? "zero" : ""}`}
             onClick={() => handleClick(btn)}
           >
             {btn}
